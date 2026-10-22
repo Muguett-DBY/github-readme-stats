@@ -234,6 +234,30 @@ describe("Test fetchStats", () => {
     });
   });
 
+  it("should accept zero total commits", async () => {
+    mock
+      .onGet("https://api.github.com/search/commits?q=author:anuraghazra")
+      .reply(200, { total_count: 0 });
+
+    const stats = await fetchStats("anuraghazra", true);
+
+    expect(stats.totalCommits).toBe(0);
+    expect(Number.isFinite(stats.rank.percentile)).toBe(true);
+  });
+
+  it.each([null, -1, 0.5, "0", true])(
+    "should reject invalid total commits: %p",
+    async (totalCount) => {
+      mock
+        .onGet("https://api.github.com/search/commits?q=author:anuraghazra")
+        .reply(200, { total_count: totalCount });
+
+      await expect(fetchStats("anuraghazra", true)).rejects.toThrow(
+        "Could not fetch total commits.",
+      );
+    },
+  );
+
   it("should throw specific error when include_all_commits true and invalid username", async () => {
     expect(fetchStats("asdf///---", true)).rejects.toThrow(
       new Error("Invalid username provided."),

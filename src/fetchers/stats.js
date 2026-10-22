@@ -203,7 +203,7 @@ const totalCommitsFetcher = async (username) => {
   }
 
   const totalCount = res.data.total_count;
-  if (!totalCount || isNaN(totalCount)) {
+  if (!Number.isInteger(totalCount) || totalCount < 0) {
     throw new CustomError(
       "Could not fetch total commits.",
       CustomError.GITHUB_REST_API_ERROR,
