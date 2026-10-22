@@ -298,7 +298,7 @@ You can customize the appearance of all your cards however you wish with URL par
 | `bg_color` | Card's background color. | string (hex color or a gradient in the form of *angle,start,end*) | `fffefe` |
 | `hide_border` | Hides the card's border. | boolean | `false` |
 | `theme` | Name of the theme, choose from [all available themes](themes/README.md). | enum | `default` |
-| `cache_seconds` | Sets the cache header manually (min: 21600, max: 86400). | integer | `21600` |
+| `cache_seconds` | Sets the cache lifetime in seconds, within the [per-card limits](src/common/cache.js). | integer | Varies by card |
 | `locale` | Sets the language in the card, you can check full list of available locales [here](#available-locales). | enum | `en` |
 | `border_radius` | Corner rounding on the card. | number | `4.5` |
 
@@ -307,6 +307,8 @@ You can customize the appearance of all your cards however you wish with URL par
 
 We use caching to decrease the load on our servers (see <https://github.com/anuraghazra/github-readme-stats/issues/1471#issuecomment-1271551425>). Our cards have the following default cache hours: stats card - 24 hours, top languages card - 144 hours (6 days), pin card - 240 hours (10 days), gist card - 48 hours (2 days), and wakatime card - 24 hours. If you want the data on your cards to be updated more often you can [deploy your own instance](#deploy-on-your-own) and set [environment variable](#available-environment-variables) `CACHE_SECONDS` to a value of your choosing.
 </td></tr></table>
+
+The `cache_seconds` URL parameter is clamped to each card's allowed range. For example, the stats card accepts 43200–172800 seconds (12–48 hours), with a default of 86400 seconds (24 hours). Setting `cache_seconds=0` in the URL does not disable caching. On a self-hosted instance, the `CACHE_SECONDS` environment variable overrides these URL-parameter limits.
 
 ##### Gradient in bg\_color
 
