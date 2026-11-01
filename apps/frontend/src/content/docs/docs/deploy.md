@@ -190,7 +190,7 @@ GitHub Stats Extended provides several environment variables that can be used to
     </tr>
     <tr>
       <td><code>CACHE_SECONDS</code></td>
-      <td>Sets the cache duration in seconds for generated cards, overriding both <code>cache_seconds</code> in the request and the per-card defaults. This override is not clamped to the per-card limits. If unset, all cards default to 10 hours (36,000 seconds); see <a href="/frontend/docs/customization/common-options/#cache-duration">Cache duration</a> for request limits.</td>
+      <td>Sets the cache duration in seconds for the generated cards. If set, this variable takes precedence over any other specified cache timings. If this variable is not set, the default cache duration is 10 hours (36,000 seconds).</td>
       <td>Any positive integer or <code>0</code> to disable caching</td>
     </tr>
     <tr>
